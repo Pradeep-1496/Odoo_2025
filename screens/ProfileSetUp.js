@@ -3,6 +3,8 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios"; // Add axios for API calls
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import {
   Platform,
   ScrollView,
@@ -24,11 +26,21 @@ export default function SetupProfileScreen() {
   const [state, setState] = useState("");
   const [aadhar, setAadhar] = useState("");
   // const [cardHolder, setCardHolder] = useState("");
-  const [birthDate, setBirthDate] = useState(null);
-  const [showDatePicker, setShowDatePicker] = useState(false); // State to control the date picker visibility
+  // const [birthDate, setBirthDate] = useState(null);
+ // const [showDatePicker, setShowDatePicker] = useState(false);
+  const [token, setToken] = useState(null);
 
   const navigation = useNavigation();
-
+  React.useEffect(() => {
+    const fetchToken = async () => {
+      const savedToken = await AsyncStorage.getItem("token");
+      console.log("Fetched token:", savedToken);
+      if (savedToken) {
+        setToken(savedToken);
+      }
+    };
+    fetchToken();
+  }, []);
   // Fetch city and state based on pincode
   const fetchCityAndState = async (pincode) => {
     if (pincode.length === 6) {
@@ -52,23 +64,33 @@ export default function SetupProfileScreen() {
     }
   };
   const handleSubmit = async () => {
-    if (!name  || !address || !pincode || !aadhar  || !birthDate) {
+
+    if (!name || !address || !pincode || !aadhar ) {
       alert("Please fill all required fields");
       return;
+    }else{
+      navigation.navigate("Home");
     }
-  
+
     try {
-      const response = await axios.post("http:/192.168.224.108:5000/api/v1/profile", {
-        email,
-        name,
-        address,
-        pincode,
-        city,
-        state,
-        aadhar,
-        birthDate: birthDate ? birthDate.toISOString().split('T')[0] : null,
-      });
-  
+      const response = await axios.post(
+        "http://192.168.224.108:5000/api/v1/profile",
+        {
+          email,
+          name,
+          address,
+          pincode,
+          
+          aadhar
+          //birthDate: birthDate ? birthDate.toISOString().split("T")[0] : null,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      //console.log("response data",response.data)
       if (response.status === 200 || response.status === 201) {
         alert("Profile saved successfully!");
         navigation.navigate("Home");
@@ -80,7 +102,7 @@ export default function SetupProfileScreen() {
       alert("Failed to save profile. Try again later.");
     }
   };
-  
+
   const handleAadharChange = (text) => {
     // Restrict Aadhar to 12 digits
     if (text.length <= 12) {
@@ -97,11 +119,11 @@ export default function SetupProfileScreen() {
     }
   };
 
-  const handleBirthDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || birthDate;
-    setShowDatePicker(Platform.OS === "ios" ? true : false); // Hide picker on Android, keep for iOS
-    setBirthDate(currentDate); // Save as Date // Format date for display
-  };
+  // const handleBirthDateChange = (event, selectedDate) => {
+  //   const currentDate = selectedDate || birthDate;
+  //   setShowDatePicker(Platform.OS === "ios" ? true : false); // Hide picker on Android, keep for iOS
+  //   setBirthDate(currentDate); // Save as Date // Format date for display
+  // };
 
   return (
     <ScrollView style={styles.container}>
@@ -314,31 +336,30 @@ export default function SetupProfileScreen() {
       </Card> */}
 
       {/* Birth Date */}
-      <Card style={styles.inputCard}>
+      {/* <Card style={styles.inputCard}>
         <View style={styles.inputWrapper}>
           <TextInput
             placeholder="Birth Date"
             value={birthDate}
-            onFocus={() => setShowDatePicker(true)}// Show date picker when input is focused
+            onFocus={() => setShowDatePicker(true)} // Show date picker when input is focused
             mode="outlined"
             outlineColor="#fff"
             style={styles.textInput}
             keyboardType="default"
             activeOutlineColor="#fff"
-            editable={false} 
           />
         </View>
-      </Card>
+      </Card> */}
 
-      {showDatePicker && (
+      {/* {showDatePicker && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={birthDate || new Date()}       
+          value={birthDate || new Date()}
           mode="date"
           display="default"
           onChange={handleBirthDateChange}
         />
-      )}
+      )} */}
 
       {/* Save Button */}
       <LinearGradient
@@ -347,11 +368,7 @@ export default function SetupProfileScreen() {
         end={{ x: 1, y: 0 }}
         style={styles.gradientButton}
       >
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleSubmit}
-
-        >
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
       </LinearGradient>
