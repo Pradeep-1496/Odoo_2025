@@ -39,7 +39,10 @@ const ProfileSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-   
+    birthdate: {
+        type: Date,
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now

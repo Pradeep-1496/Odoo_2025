@@ -9,14 +9,12 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import axios from "axios";
-import * as FileSystem from "expo-file-system";
-import mime from "mime";
 import { Text, Button, TextInput, RadioButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient"; // Import LinearGradient
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get("window");
 
@@ -24,19 +22,25 @@ const SubmissionScreen = () => {
   const [selectedOption, setSelectedOption] = useState("Post");
   const [inputText, setInputText] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState("");
+
   const navigation = useNavigation();
+
   React.useEffect(() => {
     const fetchToken = async () => {
-      const savedToken = await AsyncStorage.getItem("token");
-      console.log("Fetched token:", savedToken);
-      if (savedToken) {
-        setToken(savedToken);
+      try {
+        const savedToken = await AsyncStorage.getItem("token");
+        console.log("Fetched token:", savedToken);
+        if (savedToken) {
+          setToken(savedToken);
+        }
+      } catch (error) {
+        console.log("Error fetching token:", error);
       }
     };
     fetchToken();
   }, []);
-
+  
   const submitForm = async () => {
     if (!inputText.trim()) {
       alert("Please enter some text.");
@@ -183,7 +187,11 @@ const SubmissionScreen = () => {
           end={{ x: 1, y: 0 }} // Horizontal end
           style={styles.gradientButton}
         >
-          <TouchableOpacity style={styles.button} onPress={submitForm}>
+          <TouchableOpacity
+            style={styles.button}
+            
+            onPress={() => alert("Submit successfully")}
+          >
             <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
         </LinearGradient>

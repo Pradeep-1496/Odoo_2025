@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from 'expo-linear-gradient';
 
 // Get screen dimensions
 const { width, height } = Dimensions.get("window");
@@ -23,34 +24,44 @@ export default function Connect() {
     {
       id: "1",
       title: "Education Community",
-      description: "We make sure you get the best Services as possible",
-      image: require("../../assets/female.png"),
+      description: "We make sure you get the best Education as possible",
+      image: require("../../assets/male.png"),
     },
     {
       id: "2",
       title: "Park Development",
-      description: "Tag line or slogan here",
-      image: require("../../assets/female.png"),
+      description: "We make sure every park developed well",
+      image: require("../../assets/park.png"),
     },
     {
       id: "3",
-      title: "Community ",
-      description: "Tag line or slogan here",
+      title: "Waste Management",
+      description: "Swacha bharat, sndar bharat",
       image: require("../../assets/female.png"),
     },
     {
       id: "4",
-      title: "Community ",
-      description: "Tag line or slogan here",
-      image: require("../../assets/female.png"),
+      title: "Health is Wealth",
+      description: "Make sure everyone get health benefits as possible",
+      image: require("../../assets/pm.png"),
     },
-    // More community items...
+    {
+      id: "5",
+      title: "Community",
+      description: "Slogan",
+      image: require("../../assets/cm.png"),
+    },
   ];
 
   const renderCommunityItem = ({ item }) => (
     <TouchableOpacity
       style={styles.communityCard}
-      onPress={() => navigation.navigate("ChatScreen")} // Navigate to ChatScreen
+      onPress={() =>
+        navigation.navigate("ChatScreen", {
+          title: item.title,
+          image: item.image,
+        })
+      }
     >
       <Image source={item.image} style={styles.communityImage} />
       <View style={styles.communityDetails}>
@@ -65,10 +76,10 @@ export default function Connect() {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.navigate("Home")}
           style={styles.menuCon}
         >
-          <Icon name="menu" size={28} color="#000" />
+          <Icon name="home" size={28} color="#000" />
         </TouchableOpacity>
 
         <View style={styles.headerTitleCon}>
@@ -99,6 +110,31 @@ export default function Connect() {
         />
         <Icon name="microphone" size={24} color="#888" />
       </View>
+
+
+ <LinearGradient
+          colors={["#00F996", "#00A6F9"]} // Define your gradient colors
+          start={{ x: 0, y: 0 }} // Start at the left (horizontal)
+          end={{ x: 1, y: 0 }} // End at the right (horizontal)
+          style={styles.gradientButton}
+        >
+          <TouchableOpacity style={styles.button} 
+          onPress={() => alert("Hello")}>
+            <Text style={styles.buttonText}>Create New Community</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+
+      {/* Gradient Button */}
+      {/* <TouchableOpacity style={styles.gradientButtonWrapper}>
+        <LinearGradient
+          colors={["#00C6FF", "#0072FF"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.gradientButton}
+        >
+          <Text style={styles.gradientButtonText}>Create New Community</Text>
+        </LinearGradient>
+      </TouchableOpacity> */}
 
       {/* Community List */}
       <FlatList
@@ -185,7 +221,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#999999",
   },
   headerTitle: {
-    fontSize: 18, // Adjusted for responsiveness
+    fontSize: 18,
     fontWeight: "bold",
     color: "#000",
   },
@@ -208,8 +244,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#000",
   },
+  gradientButton: {
+margin: 10,
+borderRadius: 10,
+  },
+  button: {
+
+    alignItems: "center",
+    borderRadius: 10,
+  },
+
+  buttonText: {
+    textAlign: "center",
+    paddingVertical: height * 0.015,
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+    
+  },
   communityList: {
-    marginTop: 10,
     paddingBottom: 70,
   },
   communityCard: {

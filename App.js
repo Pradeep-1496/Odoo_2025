@@ -13,6 +13,9 @@ import Submission from "./screens/Tabs/Submission";
 import Connect from "./screens/Tabs/Connect.js";
 import Status from "./screens/Tabs/Status.js";
 import Survey from "./screens/Tabs/Survey.js";
+import ChatScreen from "./screens/Tabs/ChatScreen.js";
+import StoreSearchScreen from "./screens/StoreSearchScreen.js";
+import SurveyDetail from "./screens/Tabs/SurveyDetail.js";
 
 const Stack = createStackNavigator();
 
@@ -58,11 +61,26 @@ const App = () => {
         <Stack.Screen
           name="Statustab"
           component={Status}
-          options={{ headerShown: true }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Surveytab"
           component={Survey}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ChatScreen"
+          component={ChatScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="StoreSearchScreen"
+          component={StoreSearchScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SurveyDetail"
+          component={SurveyDetail}
           options={{ headerShown: true }}
         />
       </Stack.Navigator>

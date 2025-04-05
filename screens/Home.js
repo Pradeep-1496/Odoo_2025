@@ -143,7 +143,7 @@ export default function HomeScreen() {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.navigate("StoreSearchScreen")}
           style={styles.menuCon}
         >
           <Icon name="menu" size={28} color="#000" />
