@@ -29,11 +29,11 @@ export const createOrUpdateProfile = async (req, res) => {
     //console.log("Received Payload:", req.body); 
 
     // Extract required fields
-    const { birthdate, address, city, state, pincode, aadharNumber, phoneNumber } = req.body;
+    const {  address, city, state, pincode, aadharNumber, phoneNumber } = req.body;
 
     // Validate required fields
-    if (!birthdate || !pincode || !aadharNumber) {
-      return res.status(400).json({ message: "Birthdate, Pincode, and Aadhar Number are required." });
+    if ( !pincode || !aadharNumber) {
+      return res.status(400).json({ message: " Pincode, and Aadhar Number are required." });
     }
 
     let profile = await Profile.findOne({ user: req.user._id });
@@ -50,13 +50,13 @@ export const createOrUpdateProfile = async (req, res) => {
               if (error) return res.status(500).json({ message: "Image upload failed", error });
 
               profile.avatar = result.secure_url; // Save Cloudinary image URL
-              profile.birthdate = birthdate;
+           
               profile.address = address;
               profile.city = city;
               profile.state = state;
               profile.pincode = pincode;
               profile.aadharNumber = aadharNumber;
-              profile.phoneNumber = phoneNumber;
+              
 
               await profile.save();
               return res.status(200).json({ message: "Profile updated successfully", profile });
@@ -72,7 +72,7 @@ export const createOrUpdateProfile = async (req, res) => {
       profile.state = state;
       profile.pincode = pincode;
       profile.aadharNumber = aadharNumber;
-      profile.phoneNumber = phoneNumber;
+    
 
       await profile.save();
       return res.status(200).json({ message: "Profile updated successfully", profile });

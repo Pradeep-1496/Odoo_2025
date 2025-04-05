@@ -12,6 +12,8 @@ import {
 import { Card, HelperText, IconButton, TextInput } from "react-native-paper";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const { width, height } = Dimensions.get("window");
 
@@ -38,9 +40,12 @@ export default function LoginScreen() {
       password: password,
     });
 
-    console.log("Login success:", response.data);
-    if (response.data?.success) {
+    //console.log("Login success:", response.data);
+    if (response.data?.success && response.data.data?.accessToken) {
+      await AsyncStorage.setItem("token", response.data.data.accessToken);
+      //console.log("Saved token:", response.data.data.accessToken);
       navigation.navigate("Home");
+    
     } else {
       setErrorMessage(response.data?.message || "Registration failed.");
     }

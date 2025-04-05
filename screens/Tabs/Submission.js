@@ -9,6 +9,9 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import axios from "axios";
+import * as FileSystem from "expo-file-system";
+import mime from "mime";
 import { Text, Button, TextInput, RadioButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -21,7 +24,63 @@ const SubmissionScreen = () => {
   const [selectedOption, setSelectedOption] = useState("Post");
   const [inputText, setInputText] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
+  const [token, setToken] = useState(null);
   const navigation = useNavigation();
+  React.useEffect(() => {
+    const fetchToken = async () => {
+      const savedToken = await AsyncStorage.getItem("token");
+      console.log("Fetched token:", savedToken);
+      if (savedToken) {
+        setToken(savedToken);
+      }
+    };
+    fetchToken();
+  }, []);
+
+  const submitForm = async () => {
+    if (!inputText.trim()) {
+      alert("Please enter some text.");
+      return;
+    }
+
+    const formData = new FormData();
+
+    // Append basic fields
+    formData.append("type", selectedOption);
+    formData.append("content", inputText);
+
+    // Append images
+    selectedImages.forEach((uri, index) => {
+      const fileInfo = {
+        uri,
+        name: uri.split("/").pop(),
+        type: mime.getType(uri) || "image/jpeg",
+      };
+      formData.append("images", fileInfo); // Must match multer field name
+    });
+
+    try {
+      const response = await axios.post(
+        "http://192.168.224.108:5000/api/v1/uploadPost/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Success:", response.data);
+      alert("Submitted successfully!");
+      setInputText("");
+      setSelectedImages([]);
+      setSelectedOption("Post");
+    } catch (error) {
+      console.error("Submission error:", error.response?.data || error.message);
+      alert("Failed to submit. Please try again.");
+    }
+  };
 
   const openCamera = async () => {
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
@@ -124,10 +183,7 @@ const SubmissionScreen = () => {
           end={{ x: 1, y: 0 }} // Horizontal end
           style={styles.gradientButton}
         >
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => alert("Submit successfully")}
-          >
+          <TouchableOpacity style={styles.button} onPress={submitForm}>
             <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
         </LinearGradient>
