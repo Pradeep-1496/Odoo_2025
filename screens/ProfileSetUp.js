@@ -86,6 +86,7 @@ export default function SetupProfileScreen() {
     if (text.length <= 12) {
       setAadhar(text);
     }
+    
   };
 
   const handlePincodeChange = (text) => {
