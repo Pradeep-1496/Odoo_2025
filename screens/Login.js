@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
+import axios from "axios";
 import {
   Dimensions,
   StyleSheet,
@@ -21,18 +22,38 @@ export default function LoginScreen() {
   const [secureText, setSecureText] = useState(true);
   const navigation = useNavigation(); // Get the navigation prop
 
-  const handleLogin = () => {
-    if (username == "") {
+  const handleLogin = async() => {
+    if (!username) {
       setErrorMessage("First fill Email address");
-    } else if (password == "") {
+      return;
+    }
+    if (!password) {
       setErrorMessage("Fill Password");
-    } else if (username == "Admin" && password == "Admin") {
-      setErrorMessage("");
+      return;
+    }
+
+ try {
+    const response = await axios.post("http://192.168.224.108:5000/api/v1/user/login", {
+      email: username,
+      password: password,
+    });
+
+    console.log("Login success:", response.data);
+    if (response.data?.success) {
       navigation.navigate("Home");
     } else {
-      setErrorMessage("Wrong ID or Password, Try again");
+      setErrorMessage(response.data?.message || "Registration failed.");
     }
-  };
+
+  } catch (error) {
+    console.error("Login failed:", error.response?.data || error.message);
+    if (error.response?.data?.message) {
+      setErrorMessage(error.response.data.message);
+    } else {
+      setErrorMessage("Something went wrong. Try again.");
+    }
+  }
+};
 
   return (
     <View style={styles.container}>

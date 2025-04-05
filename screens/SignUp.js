@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   View,
   StyleSheet,
@@ -24,16 +25,31 @@ const SignUp = () => {
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSignUp = () => {
-    if (username === "") {
-      setErrorMessage("Fill Email Address");
-    } else if (password !== confirmPassword) {
-      setErrorMessage("Passwords don't match");
-      return;
-    } else {
-      setErrorMessage("");
-      alert("Account Created as \nuser: " + username + "\npass: " + password);
-      navigation.navigate("ProfileSetUp");
+  const handleSignUp = async () => {
+    // if (username === "") {
+    //   setErrorMessage("Fill Email Address");
+    // } else  {
+    //   setErrorMessage("Passwords don't match");
+    //   return;
+    // } 
+
+    try {
+      const response =  await axios.post("http://192.168.224.108:5000/api/v1/user/register", {
+        fullName: "Test User", // You can add a field to take this input
+        email: username,
+        password,
+        confirmPassword,
+      });
+  
+      console.log(response.data); // success message from backend
+      if (response.data?.success) {
+        navigation.navigate("ProfileSetUp");
+      } else {
+        setErrorMessage(response.data?.message || "Registration failed.");
+      }
+    } catch (error) {
+      console.error(error?.response?.data || error.message);
+      setErrorMessage(error?.response?.data?.message || "Something went wrong");
     }
   };
 

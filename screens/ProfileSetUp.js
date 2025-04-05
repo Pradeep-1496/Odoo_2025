@@ -17,14 +17,14 @@ export default function SetupProfileScreen() {
   const [email, setEmail] = useState("user123@gmail.com");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [flatNo, setFlatNo] = useState("");
+  // const [flatNo, setFlatNo] = useState("");
   const [address, setAddress] = useState("");
   const [pincode, setPincode] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [aadhar, setAadhar] = useState("");
-  const [cardHolder, setCardHolder] = useState("");
-  const [birthDate, setBirthDate] = useState("");
+  // const [cardHolder, setCardHolder] = useState("");
+  const [birthDate, setBirthDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false); // State to control the date picker visibility
 
   const navigation = useNavigation();
@@ -51,7 +51,36 @@ export default function SetupProfileScreen() {
       }
     }
   };
-
+  const handleSubmit = async () => {
+    if (!name  || !address || !pincode || !aadhar  || !birthDate) {
+      alert("Please fill all required fields");
+      return;
+    }
+  
+    try {
+      const response = await axios.post("http:/192.168.224.108:5000/api/v1/profile", {
+        email,
+        name,
+        address,
+        pincode,
+        city,
+        state,
+        aadhar,
+        birthDate: birthDate ? birthDate.toISOString().split('T')[0] : null,
+      });
+  
+      if (response.status === 200 || response.status === 201) {
+        alert("Profile saved successfully!");
+        navigation.navigate("Home");
+      } else {
+        alert("Something went wrong!");
+      }
+    } catch (error) {
+      console.error("Error saving profile:", error.message);
+      alert("Failed to save profile. Try again later.");
+    }
+  };
+  
   const handleAadharChange = (text) => {
     // Restrict Aadhar to 12 digits
     if (text.length <= 12) {
@@ -70,7 +99,7 @@ export default function SetupProfileScreen() {
   const handleBirthDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || birthDate;
     setShowDatePicker(Platform.OS === "ios" ? true : false); // Hide picker on Android, keep for iOS
-    setBirthDate(currentDate.toLocaleDateString()); // Format date for display
+    setBirthDate(currentDate); // Save as Date // Format date for display
   };
 
   return (
@@ -160,9 +189,9 @@ export default function SetupProfileScreen() {
       </TouchableOpacity> */}
 
       {/* Address Details */}
-      <Text style={styles.sectionTitle}>Address </Text>
+      <Text style={styles.sectionTitle}>Address Details</Text>
 
-      <Card style={styles.inputCard}>
+      {/* <Card style={styles.inputCard}>
         <View style={styles.inputWrapper}>
           <TextInput
             placeholder="House/Flat no"
@@ -176,7 +205,7 @@ export default function SetupProfileScreen() {
             cursorColor="#000"
           />
         </View>
-      </Card>
+      </Card> */}
 
       {/* Address */}
       <Card style={styles.inputCard}>
@@ -267,7 +296,7 @@ export default function SetupProfileScreen() {
       </Card>
 
       {/* Card Holder's Name */}
-      <Card style={styles.inputCard}>
+      {/* <Card style={styles.inputCard}>
         <View style={styles.inputWrapper}>
           <TextInput
             placeholder="Card Holder's Name"
@@ -281,7 +310,7 @@ export default function SetupProfileScreen() {
             cursorColor="#000"
           />
         </View>
-      </Card>
+      </Card> */}
 
       {/* Birth Date */}
       <Card style={styles.inputCard}>
@@ -289,12 +318,13 @@ export default function SetupProfileScreen() {
           <TextInput
             placeholder="Birth Date"
             value={birthDate}
-            onFocus={() => setShowDatePicker(true)} // Show date picker when input is focused
+            onFocus={() => setShowDatePicker(true)}// Show date picker when input is focused
             mode="outlined"
             outlineColor="#fff"
             style={styles.textInput}
             keyboardType="default"
             activeOutlineColor="#fff"
+            editable={false} 
           />
         </View>
       </Card>
@@ -302,7 +332,7 @@ export default function SetupProfileScreen() {
       {showDatePicker && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={new Date()}
+          value={birthDate || new Date()}       
           mode="date"
           display="default"
           onChange={handleBirthDateChange}
@@ -318,10 +348,8 @@ export default function SetupProfileScreen() {
       >
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-            alert("Save");
-            navigation.navigate("Home");
-          }}
+          onPress={handleSubmit}
+
         >
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
