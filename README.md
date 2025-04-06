@@ -64,11 +64,34 @@ NextStep bridges the gap between **local authorities and citizens** by providing
 1. **Clone the Repository**  
    ```bash
    git clone https://github.com/dev261004/NextStep.git
-   cd NextStep ```
+   cd NextStep
+   ```
 
-2. **Install Dependencies**
+2. **Install Dependencies**  
+   ```bash
+   npm install
+   ```
 
- ```Copy
-Edit
-npm install```
+3. **Start the Backend Server**  
+   ```bash
+   cd server
+   npm install
+   npm start
+   ```
 
+4. **Start the Expo App**  
+   ```bash
+   cd ../frontend
+   npm install
+   npm start
+   ```
+
+5. **Connect MongoDB**  
+   - Create a `.env` file in the `server` folder.  
+   - Add your MongoDB URI and JWT secret:  
+     ```
+     MONGO_URI=your_mongo_connection_string
+     JWT_SECRET=your_jwt_secret
+     ```
+
+---
