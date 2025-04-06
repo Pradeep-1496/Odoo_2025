@@ -9,6 +9,7 @@ import profileRouter from "./routes/profile.routes.js"
 import submitRouter from "./routes/submission.route.js"
 import communityRoutes from "./routes/community.route.js"
 import messageRoutes from "./routes/message.routes.js"
+import forgotPasswordRouter from "./routes/user.routes.js"
 
 const app= express();
 const server = http.createServer(app);
@@ -60,6 +61,7 @@ app.use(cookieParser())
 
 app.use("/api/v1",googlerouter)
 app.use("/api/v1/user",userRouter)
+app.use("/api/v1/forgot-password", forgotPasswordRouter);
 app.use("/api/v1/profile",profileRouter);
 app.use("/api/v1/uploadPost",submitRouter);
 app.use("/api/v1/communities", communityRoutes);

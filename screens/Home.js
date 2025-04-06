@@ -19,6 +19,8 @@ const { width, height } = Dimensions.get("window");
 
 export default function HomeScreen() {
   const [searchText, setSearchText] = useState("");
+  const [activeTab, setActiveTab] = useState("home");
+
   const navigation = useNavigation();
 
   const leaders = [
@@ -34,26 +36,30 @@ export default function HomeScreen() {
     { id: "10", name: "MLA 8", image: require("../assets/mla2.png") },
   ];
 
-  const posts = [
+  const [posts, setPosts]  = useState([
     {
       id: "1",
-      icon: require("../assets/female.png"),
-      user: "Rosedale Development Association",
-      image: require("../assets/post/park.jpg"), // Replace with your image
-      likes: 1200,
-      comments: 532,
-      description:
-        "Join us for a Trail Workday! March 25th, 9AM-11AM at Fisher Park.  #community #trailcleanup",
-      timeAgo: "2 days ago",
+  icon: require("../assets/female.png"), // local file - this is okay
+  user: "dev agrawal",
+  image: {
+    uri: "https://res.cloudinary.com/dd7wtmtp2/image/upload/v1743910891/ejduau6n3dal65rmxwmi.jpg"
+  },
+  likes: 0,
+  comments: 532,
+  description:
+    "Join us for a Trail Workday! March 25th, 9AM-11AM at Fisher Park.  #community #trailcleanup",
+  timeAgo: "2 days ago",
     },
     // Add more post objects here
     {
       id: "2",
       user: "Charusat",
       icon: require("../assets/adaptive-icon.png"),
+      image: {
+        uri: "https://res.cloudinary.com/dd7wtmtp2/image/upload/v1743910983/ilsafu8lekpseyzbz5cw.jpg"
+      },
 
-      image: require("../assets/post/charusat.jpg"), // Replace with your image
-      likes: 1234,
+      likes: 0,
       comments: 567,
       description: "Sample Post 2",
       timeAgo: "3 days ago",
@@ -62,15 +68,23 @@ export default function HomeScreen() {
       id: "3",
       user: "Narendra Modi",
       icon: require("../assets/pm.png"),
-
-      image: require("../assets/post/meloni.jpg"), // Replace with your image
-      likes: 987,
+      
+      image: {
+        uri: "https://res.cloudinary.com/dd7wtmtp2/image/upload/v1732007788/samples/landscapes/nature-mountains.jpg"
+      }, // Replace with your image
+      likes: 0,
       comments: 321,
       description: "Sample Post 3",
       timeAgo: "1 week ago",
     },
-  ];
-
+  ]);
+  const handleLike = (postId) => {
+    const updatedPosts = posts.map((post) =>
+      post.id === postId ? { ...post, likes: post.likes +1 } : post
+    );
+    setPosts(updatedPosts);
+  };
+  
   const handleLeaderPress = (leader) => {
     alert(`Pressed on ${leader.name}`);
     // You can navigate to a different screen or perform other actions here
@@ -103,32 +117,23 @@ export default function HomeScreen() {
       </View>
       <Image source={item.image} style={styles.postImage} />
       <View style={styles.postActions}>
-        <TouchableOpacity>
-          <Icon name="arrow-up-bold-outline" size={28} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Icon name="comment-outline" size={28} color="#000" />
+      <TouchableOpacity onPress={() => handleLike(item.id)}>
+  <Icon name="arrow-up-bold-outline" size={28} color="#000" />
+</TouchableOpacity>
+
+        <TouchableOpacity onPress={() => {
+  setActiveTab("connect");
+  navigation.navigate("Connect-chat");
+}}>
+   <Icon name="comment-outline" size={28} color={activeTab === "connect" ? "#00A6F9" : "#888"} />
+<Text style={activeTab === "connect" ? styles.navTextActive : styles.navText}>Connect</Text>
+
+        
         </TouchableOpacity>
         <TouchableOpacity>
           <Icon name="share-variant-outline" size={28} color="#000" />
         </TouchableOpacity>
-        <View style={styles.Center}>
-          <LinearGradient
-            colors={["#00F996", "#00A6F9"]} // Define your gradient colors
-            start={{ x: 0, y: 0 }} // Start at the left (horizontal)
-            end={{ x: 1, y: 0 }} // End at the right (horizontal)
-            style={styles.gradientButton}
-          >
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                alert("joined");
-              }}
-            >
-              <Text style={styles.buttonText}>Join</Text>
-            </TouchableOpacity>
-          </LinearGradient>
-        </View>
+       
       </View>
       <View style={styles.postDetails}>
         <Text style={styles.postLikes}>{item.likes} Likes</Text>
@@ -187,6 +192,11 @@ export default function HomeScreen() {
         contentContainerStyle={styles.leaderList}
         showsHorizontalScrollIndicator={false}
         style={styles.leadersCon}
+        initialNumToRender={5}
+        removeClippedSubviews
+        windowSize={5}
+maxToRenderPerBatch={5}
+
       />
 
       {/*  Post Section */}
@@ -313,8 +323,8 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     marginBottom: 5,
-    borderWidth: 2, // Set the width of the border
-    borderColor: "#000",
+    // borderWidth: 2, // Set the width of the border
+    // borderColor: "#000",
   },
   leaderName: {
     fontSize: 12,

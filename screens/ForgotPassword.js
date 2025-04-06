@@ -9,22 +9,48 @@ const ForgotPassword = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const handleForgotPassword = () => {
-    // Add your forgot password logic here
-    console.log("forgot password by User");
-    alert("Message send Successfully to " + email);
-    navigation.navigate("Login");
+  const handleForgotPassword = async () => {
+    try {
+      const response = await fetch(
+        "http://192.168.224.108:5000/api/v1/forgot-password/forgot-password",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+      const responseText = await response.text();
+      console.log("Raw response:", responseText);
+      let data;
+      try {
+        data = await response.json();
+      } catch (e) {
+        throw new Error("Invalid response from server");
+      }
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        console.error("Failed to parse JSON:", responseText);
+        throw new Error("Invalid response from server");
+      }
+      if (response.ok) {
+        const resetToken = data.resetToken; // <-- this must match the key in your backend response
+        alert(`Reset link sent to ${email}`);
+        navigation.navigate("ResetPassword", { token: resetToken });
+      } else {
+        setErrorMessage(data.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.error("Error sending reset email:", error);
+      setErrorMessage("An error occurred. Try again later.");
+    }
   };
 
   const handleEmail = () => {
     if (email == "") {
       setErrorMessage("Fill Email Address");
-    } else if (email !== "Admin@gmail.com") {
-      setErrorMessage("Email not found");
-      return;
-    } else {
-      setErrorMessage("");
-      handleForgotPassword();
     }
   };
 
@@ -70,7 +96,7 @@ const ForgotPassword = () => {
         end={{ x: 1, y: 0 }} // End at the right (horizontal)
         style={styles.gradientButton}
       >
-        <TouchableOpacity style={styles.button} onPress={handleEmail}>
+        <TouchableOpacity style={styles.button} onPress={handleForgotPassword}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </LinearGradient>

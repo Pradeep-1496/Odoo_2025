@@ -60,7 +60,7 @@ export default function SetupProfileScreen() {
     try {
 
       const response = await axios.post(
-        "http://192.168.22.108:5000/api/v1/profile",
+        "http://192.168.224.108:5000/api/v1/profile",
         {
           email,
           name,

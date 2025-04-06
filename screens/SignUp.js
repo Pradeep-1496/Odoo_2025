@@ -26,15 +26,9 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSignUp = async () => {
-    // if (username === "") {
-    //   setErrorMessage("Fill Email Address");
-    // } else  {
-    //   setErrorMessage("Passwords don't match");
-    //   return;
-    // } 
 
     try {
-      const response =  await axios.post("http://192.168.22.108:5000/api/v1/user/register", {
+      const response =  await axios.post("http://192.168.224.108:5000/api/v1/user/register", {
         fullName: "Test User", // You can add a field to take this input
         email: username,
         password,

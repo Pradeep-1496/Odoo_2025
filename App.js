@@ -17,6 +17,8 @@ import ChatScreen from "./screens/Tabs/ChatScreen.js";
 import StoreSearchScreen from "./screens/StoreSearchScreen.js";
 import SurveyDetail from "./screens/Tabs/SurveyDetail.js";
 import ComplaintsScreen from "./screens/ComplaintsScreen.js";
+import ResetPassword from './screens/ResetPassword.js'; 
+
 
 const Stack = createStackNavigator();
 
@@ -37,6 +39,11 @@ const App = () => {
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPasswordScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ResetPassword"
+          component={ResetPassword}
           options={{ headerShown: false }}
         />
         <Stack.Screen
