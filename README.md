@@ -3,6 +3,7 @@
   <img src="./ScreenShot/banner.png" alt="Image description" width="500"/><br/>
 </div> 
 
+## Demo Video : https://drive.google.com/file/d/1Oa3G3_uSih5d-WIcrzpGf-PJj5P6zH1a/view?usp=drive_link
 ## 🚀 About the Project  
 NextStep is a **React Native** application developed during the **Odoo x CHARUSAT Hackathon** to empower marginalized communities by providing tools for civic engagement. The platform helps users **influence policy decisions, report local issues, and participate in community initiatives**.
 
