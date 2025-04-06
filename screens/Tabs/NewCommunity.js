@@ -84,7 +84,9 @@ export default function NewCommunity() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
-  content: { padding: 20 },
+  content: { padding: 20,
+    marginTop:20,
+   },
   title: {
     fontSize: 22,
     fontWeight: "bold",

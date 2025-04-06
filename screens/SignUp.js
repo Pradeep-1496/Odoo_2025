@@ -30,7 +30,6 @@ const SignUp = () => {
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [selectedOption, setSelectedOption] = useState("User");
 
   const handleSignUp = async () => {
     // if (username === "") {
@@ -86,22 +85,7 @@ const SignUp = () => {
         </View>
       </Card>
 
-      {/* Radio Buttons */}
-      <RadioButton.Group
-        onValueChange={(value) => setSelectedOption(value)}
-        value={selectedOption}
-      >
-        <View style={styles.radioContainer}>
-          <View style={styles.radioItem}>
-            <RadioButton value="User" />
-            <Text>User</Text>
-          </View>
-          <View style={styles.radioItem}>
-            <RadioButton value="Staff" />
-            <Text>Staff</Text>
-          </View>
-        </View>
-      </RadioButton.Group>
+     
 
       {/* Password */}
       <Card style={styles.inputCard}>
