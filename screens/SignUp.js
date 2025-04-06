@@ -7,7 +7,13 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import { Card, TextInput, IconButton, HelperText } from "react-native-paper";
+import {
+  Card,
+  TextInput,
+  IconButton,
+  HelperText,
+  RadioButton,
+} from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
@@ -24,6 +30,7 @@ const SignUp = () => {
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedOption, setSelectedOption] = useState("User");
 
   const handleSignUp = async () => {
     // if (username === "") {
@@ -81,6 +88,23 @@ const SignUp = () => {
           />
         </View>
       </Card>
+
+      {/* Radio Buttons */}
+      <RadioButton.Group
+        onValueChange={(value) => setSelectedOption(value)}
+        value={selectedOption}
+      >
+        <View style={styles.radioContainer}>
+          <View style={styles.radioItem}>
+            <RadioButton value="User" />
+            <Text>User</Text>
+          </View>
+          <View style={styles.radioItem}>
+            <RadioButton value="Staff" />
+            <Text>Staff</Text>
+          </View>
+        </View>
+      </RadioButton.Group>
 
       {/* Password */}
       <Card style={styles.inputCard}>
@@ -267,6 +291,15 @@ const styles = StyleSheet.create({
     right: width * 0.05, // Adjust eye icon position
     top: "50%",
     transform: [{ translateY: -10 }],
+  },
+  radioContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
+  },
+  radioItem: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 

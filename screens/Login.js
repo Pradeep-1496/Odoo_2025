@@ -118,15 +118,19 @@ export default function LoginScreen() {
       {/* Error Message */}
       {errorMessage && <HelperText type="error">{errorMessage}</HelperText>}
 
-      {/* Forgot Password */}
-      <TouchableOpacity>
-        <Text
-          style={styles.forgotPassword}
-          onPress={() => navigation.navigate("ForgotPassword")} // Use navigation prop
+      {/* Admin */}
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("ComplaintsScreen")}
         >
-          Forgot Password?
-        </Text>
-      </TouchableOpacity>
+          <Text style={styles.admin}>Admin</Text>
+        </TouchableOpacity>
+
+        {/* Forgot Password */}
+        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+          <Text style={styles.forgotPassword}>Forgot Password?</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Login Button */}
       <View style={styles.Center}>
@@ -231,11 +235,20 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -10 }],
   },
 
+  admin: {
+    color: "#0077b3",
+    textAlign: "left",
+    marginBottom: height * 0.02,
+    marginTop: height * 0.01,
+    marginLeft: 10,
+  },
+
   forgotPassword: {
     color: "#0077b3",
     textAlign: "right",
     marginBottom: height * 0.02,
     marginTop: height * 0.01,
+    marginRight: 10,
   },
 
   Center: {
