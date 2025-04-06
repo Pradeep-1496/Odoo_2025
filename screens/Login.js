@@ -34,7 +34,7 @@ export default function LoginScreen() {
     }
 
  try {
-    const response = await axios.post("http://192.168.22.108:5000/api/v1/user/login", {
+    const response = await axios.post("http://192.168.224.108:5000/api/v1/user/login", {
       email: username,
       password: password,
     });

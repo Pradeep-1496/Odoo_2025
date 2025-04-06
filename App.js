@@ -20,9 +20,9 @@ import SurveyDetail from "./screens/Tabs/SurveyDetail.js";
 import ComplaintsScreen from "./screens/ComplaintsScreen.js";
 
 
-=======
+
 import NewCommunity from "./screens/Tabs/NewCommunity.js";
->>>>>>> c230c4de3e74562ed466f81ba588d8fc13a30d59
+
 
 const Stack = createStackNavigator();
 
@@ -45,11 +45,7 @@ const App = () => {
           component={ForgotPasswordScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="ResetPassword"
-          component={ResetPassword}
-          options={{ headerShown: false }}
-        />
+      
         <Stack.Screen
           name="ProfileSetUp"
           component={ProfileSetUp}
