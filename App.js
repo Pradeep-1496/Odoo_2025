@@ -17,6 +17,7 @@ import ChatScreen from "./screens/Tabs/ChatScreen.js";
 import StoreSearchScreen from "./screens/StoreSearchScreen.js";
 import SurveyDetail from "./screens/Tabs/SurveyDetail.js";
 import ComplaintsScreen from "./screens/ComplaintsScreen.js";
+import NewCommunity from "./screens/Tabs/NewCommunity.js";
 
 const Stack = createStackNavigator();
 
@@ -88,6 +89,11 @@ const App = () => {
           name="SurveyDetail"
           component={SurveyDetail}
           options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="NewCommunity"
+          component={NewCommunity}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

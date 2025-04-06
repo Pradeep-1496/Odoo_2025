@@ -31,16 +31,19 @@ const SignUp = () => {
     // } else  {
     //   setErrorMessage("Passwords don't match");
     //   return;
-    // } 
+    // }
 
     try {
-      const response =  await axios.post("http://192.168.22.108:5000/api/v1/user/register", {
-        fullName: "Test User", // You can add a field to take this input
-        email: username,
-        password,
-        confirmPassword,
-      });
-  
+      const response = await axios.post(
+        "http://192.168.68.157:5000/api/v1/user/register",
+        {
+          fullName: "Test User", // You can add a field to take this input
+          email: username,
+          password,
+          confirmPassword,
+        }
+      );
+
       console.log(response.data); // success message from backend
       if (response.data?.success) {
         navigation.navigate("ProfileSetUp");
