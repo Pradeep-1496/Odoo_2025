@@ -1,19 +1,35 @@
 // ComplaintsScreen.js
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-  View, Text, FlatList, StyleSheet, TouchableOpacity, Modal, Button, TextInput, Alert
-} from 'react-native';
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  Button,
+  TextInput,
+  Alert,
+} from "react-native";
 
 const ComplaintsScreen = () => {
   const [complaints, setComplaints] = useState([
-    { id: '1', user: 'Ravi Kumar', description: 'No proper supply of medicines in Jan Aushadhi Kendra.' },
-    { id: '2', user: 'Priya Sharma', description: 'Ration not distributed in my area since 2 months.' },
+    {
+      id: "1",
+      user: "Ravi Kumar",
+      description: "No proper supply of medicines in Jan Aushadhi Kendra.",
+    },
+    {
+      id: "2",
+      user: "Priya Sharma",
+      description: "Ration not distributed in my area since 2 months.",
+    },
   ]);
 
   const [assignModalVisible, setAssignModalVisible] = useState(false);
   const [selectedComplaint, setSelectedComplaint] = useState(null);
-  const [assignee, setAssignee] = useState('');
+  const [assignee, setAssignee] = useState("");
 
   const handleAssign = (complaint) => {
     setSelectedComplaint(complaint);
@@ -21,14 +37,14 @@ const ComplaintsScreen = () => {
   };
 
   const confirmAssign = () => {
-    Alert.alert('Assigned', `Complaint assigned to ${assignee}`);
+    Alert.alert("Assigned", `Complaint assigned to ${assignee}`);
     setAssignModalVisible(false);
-    setAssignee('');
+    setAssignee("");
   };
 
   const handleTake = (complaintId) => {
-    setComplaints(prev => prev.filter(item => item.id !== complaintId));
-    Alert.alert('Completed', 'Complaint marked as completed');
+    setComplaints((prev) => prev.filter((item) => item.id !== complaintId));
+    Alert.alert("Completed", "Complaint marked as completed");
   };
 
   const renderComplaint = ({ item }) => (
@@ -37,11 +53,17 @@ const ComplaintsScreen = () => {
       <Text style={styles.description}>{item.description}</Text>
 
       <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.assignBtn} onPress={() => handleAssign(item)}>
+        <TouchableOpacity
+          style={styles.assignBtn}
+          onPress={() => handleAssign(item)}
+        >
           <Text style={styles.buttonText}>Assign</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.takeBtn} onPress={() => handleTake(item.id)}>
+        <TouchableOpacity
+          style={styles.takeBtn}
+          onPress={() => handleTake(item.id)}
+        >
           <Text style={styles.buttonText}>Take</Text>
         </TouchableOpacity>
       </View>
@@ -66,7 +88,11 @@ const ComplaintsScreen = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 10 }}>Assign To</Text>
+            <Text
+              style={{ fontWeight: "bold", fontSize: 18, marginBottom: 10 }}
+            >
+              Assign To
+            </Text>
             <TextInput
               placeholder="Enter team member name"
               value={assignee}
@@ -74,7 +100,12 @@ const ComplaintsScreen = () => {
               style={styles.input}
             />
             <Button title="Confirm Assign" onPress={confirmAssign} />
-            <Button title="Cancel" onPress={() => setAssignModalVisible(false)} color="gray" />
+            <View style={{ height: 10 }} />
+            <Button
+              title="Cancel"
+              onPress={() => setAssignModalVisible(false)}
+              color="gray"
+            />
           </View>
         </View>
       </Modal>
@@ -83,47 +114,53 @@ const ComplaintsScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#f4f4f4' },
-  heading: { fontSize: 22, fontWeight: 'bold', marginBottom: 15 },
+  container: { flex: 1, padding: 20, backgroundColor: "#f4f4f4" },
+  heading: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 15,
+    marginTop: 30,
+  },
+
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 15,
     borderRadius: 10,
     marginBottom: 12,
     elevation: 3,
   },
-  user: { fontSize: 16, fontWeight: 'bold', color: '#333' },
-  description: { fontSize: 14, marginVertical: 8, color: '#555' },
-  buttonRow: { flexDirection: 'row', justifyContent: 'space-between' },
+  user: { fontSize: 16, fontWeight: "bold", color: "#333" },
+  description: { fontSize: 14, marginVertical: 8, color: "#555" },
+  buttonRow: { flexDirection: "row", justifyContent: "space-between" },
   assignBtn: {
-    backgroundColor: '#007bff',
+    backgroundColor: "#007bff",
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 6,
   },
   takeBtn: {
-    backgroundColor: '#28a745',
+    backgroundColor: "#28a745",
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 6,
   },
-  buttonText: { color: '#fff', fontWeight: '600' },
+  buttonText: { color: "#fff", fontWeight: "600" },
 
   modalContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
     paddingHorizontal: 30,
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 10,
     padding: 20,
     elevation: 10,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 6,
     padding: 10,
     marginBottom: 10,

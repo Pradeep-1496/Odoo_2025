@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -10,17 +10,14 @@ import {
   Dimensions,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
-import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation, useRoute, useFocusEffect } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 
-// Get screen dimensions
 const { width, height } = Dimensions.get("window");
 
 export default function Connect() {
   const [searchText, setSearchText] = useState("");
-  const navigation = useNavigation();
-
-  const communities = [
+  const [communities, setCommunities] = useState([
     {
       id: "1",
       title: "Education Community",
@@ -51,7 +48,25 @@ export default function Connect() {
       description: "Slogan",
       image: require("../../assets/cm.png"),
     },
-  ];
+  ]);
+
+  const navigation = useNavigation();
+  const route = useRoute();
+
+  useFocusEffect(
+    useCallback(() => {
+      if (route.params?.newCommunity) {
+        const { title, description } = route.params.newCommunity;
+        const newItem = {
+          id: Date.now().toString(),
+          title,
+          description,
+          image: require("../../assets/male.png"),
+        };
+        setCommunities((prev) => [newItem, ...prev]);
+      }
+    }, [route.params?.newCommunity])
+  );
 
   const renderCommunityItem = ({ item }) => (
     <TouchableOpacity
@@ -83,19 +98,13 @@ export default function Connect() {
         </TouchableOpacity>
 
         <View style={styles.headerTitleCon}>
-          <Image
-            source={require("../../assets/icon.png")}
-            style={styles.profileImage}
-          />
+          <Image source={require("../../assets/icon.png")} style={styles.profileImage} />
           <View style={styles.divider}></View>
           <Text style={styles.headerTitle}>Next Step</Text>
         </View>
 
         <TouchableOpacity onPress={() => navigation.navigate("ProfileSetUp")}>
-          <Image
-            source={require("../../assets/male.png")}
-            style={styles.profileImage}
-          />
+          <Image source={require("../../assets/male.png")} style={styles.profileImage} />
         </TouchableOpacity>
       </View>
 
@@ -111,30 +120,20 @@ export default function Connect() {
         <Icon name="microphone" size={24} color="#888" />
       </View>
 
-
- <LinearGradient
-          colors={["#00F996", "#00A6F9"]} // Define your gradient colors
-          start={{ x: 0, y: 0 }} // Start at the left (horizontal)
-          end={{ x: 1, y: 0 }} // End at the right (horizontal)
-          style={styles.gradientButton}
+      {/* Create New Community Button */}
+      <LinearGradient
+        colors={["#00F996", "#00A6F9"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={styles.gradientButton}
+      >
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("NewCommunity")}
         >
-          <TouchableOpacity style={styles.button} 
-          onPress={() => alert("Hello")}>
-            <Text style={styles.buttonText}>Create New Community</Text>
-          </TouchableOpacity>
-        </LinearGradient>
-
-      {/* Gradient Button */}
-      {/* <TouchableOpacity style={styles.gradientButtonWrapper}>
-        <LinearGradient
-          colors={["#00C6FF", "#0072FF"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.gradientButton}
-        >
-          <Text style={styles.gradientButtonText}>Create New Community</Text>
-        </LinearGradient>
-      </TouchableOpacity> */}
+          <Text style={styles.buttonText}>Create New Community</Text>
+        </TouchableOpacity>
+      </LinearGradient>
 
       {/* Community List */}
       <FlatList
@@ -147,10 +146,7 @@ export default function Connect() {
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.tabsC}
-          onPress={() => navigation.navigate("Home")}
-        >
+        <TouchableOpacity style={styles.tabsC} onPress={() => navigation.navigate("Home")}>
           <Icon name="home" size={28} color="#888" />
           <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
@@ -160,26 +156,17 @@ export default function Connect() {
           <Text style={styles.navTextActive}>Connect</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.tabsC}
-          onPress={() => navigation.navigate("Submission")}
-        >
+        <TouchableOpacity style={styles.tabsC} onPress={() => navigation.navigate("Submission")}>
           <Icon name="camera" size={28} color="#888" />
           <Text style={styles.navText}>Camera</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.tabsC}
-          onPress={() => navigation.navigate("Statustab")}
-        >
+        <TouchableOpacity style={styles.tabsC} onPress={() => navigation.navigate("Statustab")}>
           <Icon name="list-status" size={28} color="#888" />
           <Text style={styles.navText}>Status</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.tabsC}
-          onPress={() => navigation.navigate("Surveytab")}
-        >
+        <TouchableOpacity style={styles.tabsC} onPress={() => navigation.navigate("Surveytab")}>
           <Icon name="file-document" size={28} color="#888" />
           <Text style={styles.navText}>Surveys</Text>
         </TouchableOpacity>
@@ -189,11 +176,7 @@ export default function Connect() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    padding: 15,
-  },
+  container: { flex: 1, backgroundColor: "white", padding: 15 },
   menuCon: {
     backgroundColor: "#f0f0f0",
     height: 40,
@@ -215,21 +198,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  divider: {
-    height: 35,
-    width: 1,
-    backgroundColor: "#999999",
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#000",
-  },
-  profileImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-  },
+  divider: { height: 35, width: 1, backgroundColor: "#999999" },
+  headerTitle: { fontSize: 18, fontWeight: "bold", color: "#000" },
+  profileImage: { width: 40, height: 40, borderRadius: 20 },
   searchBar: {
     flexDirection: "row",
     alignItems: "center",
@@ -238,33 +209,17 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
   },
-  searchInput: {
-    flex: 1,
-    marginLeft: 10,
-    fontSize: 16,
-    color: "#000",
-  },
-  gradientButton: {
-margin: 10,
-borderRadius: 10,
-  },
-  button: {
-
-    alignItems: "center",
-    borderRadius: 10,
-  },
-
+  searchInput: { flex: 1, marginLeft: 10, fontSize: 16, color: "#000" },
+  gradientButton: { margin: 10, borderRadius: 10 },
+  button: { alignItems: "center", borderRadius: 10 },
   buttonText: {
     textAlign: "center",
     paddingVertical: height * 0.015,
     color: "white",
     fontWeight: "bold",
     fontSize: 20,
-    
   },
-  communityList: {
-    paddingBottom: 70,
-  },
+  communityList: { paddingBottom: 70 },
   communityCard: {
     flexDirection: "row",
     alignItems: "center",
@@ -279,18 +234,9 @@ borderRadius: 10,
     borderRadius: 25,
     marginRight: 10,
   },
-  communityDetails: {
-    flex: 1,
-  },
-  communityTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#000",
-  },
-  communityDescription: {
-    fontSize: 14,
-    color: "#888",
-  },
+  communityDetails: { flex: 1 },
+  communityTitle: { fontSize: 16, fontWeight: "bold", color: "#000" },
+  communityDescription: { fontSize: 14, color: "#888" },
   bottomNav: {
     position: "absolute",
     bottom: 0,
@@ -304,16 +250,7 @@ borderRadius: 10,
     borderTopWidth: 1,
     borderTopColor: "#ddd",
   },
-  navText: {
-    fontSize: 12,
-    color: "#888",
-  },
-  navTextActive: {
-    fontSize: 12,
-    color: "#00A6F9",
-  },
-  tabsC: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  navText: { fontSize: 12, color: "#888" },
+  navTextActive: { fontSize: 12, color: "#00A6F9" },
+  tabsC: { justifyContent: "center", alignItems: "center" },
 });

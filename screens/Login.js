@@ -12,8 +12,7 @@ import {
 import { Card, HelperText, IconButton, TextInput } from "react-native-paper";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get("window");
 
@@ -24,7 +23,7 @@ export default function LoginScreen() {
   const [secureText, setSecureText] = useState(true);
   const navigation = useNavigation(); // Get the navigation prop
 
-  const handleLogin = async() => {
+  const handleLogin = async () => {
     if (!username) {
       setErrorMessage("First fill Email address");
       return;
@@ -35,30 +34,28 @@ export default function LoginScreen() {
     }
 
  try {
-    const response = await axios.post("http://192.168.224.108:5000/api/v1/user/login", {
+    const response = await axios.post("http://192.168.22.108:5000/api/v1/user/login", {
       email: username,
       password: password,
     });
 
-    //console.log("Login success:", response.data);
-    if (response.data?.success && response.data.data?.accessToken) {
-      await AsyncStorage.setItem("token", response.data.data.accessToken);
-      //console.log("Saved token:", response.data.data.accessToken);
-      navigation.navigate("Home");
-    
-    } else {
-      setErrorMessage(response.data?.message || "Registration failed.");
+      //console.log("Login success:", response.data);
+      if (response.data?.success && response.data.data?.accessToken) {
+        await AsyncStorage.setItem("token", response.data.data.accessToken);
+        //console.log("Saved token:", response.data.data.accessToken);
+        navigation.navigate("Home");
+      } else {
+        setErrorMessage(response.data?.message || "Registration failed.");
+      }
+    } catch (error) {
+      console.error("Login failed:", error.response?.data || error.message);
+      if (error.response?.data?.message) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Something went wrong. Try again.");
+      }
     }
-
-  } catch (error) {
-    console.error("Login failed:", error.response?.data || error.message);
-    if (error.response?.data?.message) {
-      setErrorMessage(error.response.data.message);
-    } else {
-      setErrorMessage("Something went wrong. Try again.");
-    }
-  }
-};
+  };
 
   return (
     <View style={styles.container}>
@@ -118,15 +115,19 @@ export default function LoginScreen() {
       {/* Error Message */}
       {errorMessage && <HelperText type="error">{errorMessage}</HelperText>}
 
-      {/* Forgot Password */}
-      <TouchableOpacity>
-        <Text
-          style={styles.forgotPassword}
-          onPress={() => navigation.navigate("ForgotPassword")} // Use navigation prop
+      {/* Admin */}
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("ComplaintsScreen")}
         >
-          Forgot Password?
-        </Text>
-      </TouchableOpacity>
+          <Text style={styles.admin}>Admin</Text>
+        </TouchableOpacity>
+
+        {/* Forgot Password */}
+        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+          <Text style={styles.forgotPassword}>Forgot Password?</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Login Button */}
       <View style={styles.Center}>
@@ -231,11 +232,20 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -10 }],
   },
 
+  admin: {
+    color: "#0077b3",
+    textAlign: "left",
+    marginBottom: height * 0.02,
+    marginTop: height * 0.01,
+    marginLeft: 10,
+  },
+
   forgotPassword: {
     color: "#0077b3",
     textAlign: "right",
     marginBottom: height * 0.02,
     marginTop: height * 0.01,
+    marginRight: 10,
   },
 
   Center: {

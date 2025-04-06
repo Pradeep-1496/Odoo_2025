@@ -1,5 +1,6 @@
 import "react-native-gesture-handler"; // Make sure this is at the top of your file!
 import React from "react";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -17,8 +18,11 @@ import ChatScreen from "./screens/Tabs/ChatScreen.js";
 import StoreSearchScreen from "./screens/StoreSearchScreen.js";
 import SurveyDetail from "./screens/Tabs/SurveyDetail.js";
 import ComplaintsScreen from "./screens/ComplaintsScreen.js";
-import ResetPassword from './screens/ResetPassword.js'; 
 
+
+=======
+import NewCommunity from "./screens/Tabs/NewCommunity.js";
+>>>>>>> c230c4de3e74562ed466f81ba588d8fc13a30d59
 
 const Stack = createStackNavigator();
 
@@ -95,6 +99,11 @@ const App = () => {
           name="SurveyDetail"
           component={SurveyDetail}
           options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="NewCommunity"
+          component={NewCommunity}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
