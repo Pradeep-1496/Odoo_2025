@@ -1,6 +1,6 @@
 # NextStep - Civic Engagement Platform
 <div align="center">
-  <img src="ScreenShot/banner.png" alt="Image description" width="500"/><br/>
+  <img src="./ScreenShot/banner.png" alt="Image description" width="500"/><br/>
 </div> 
 <!-- ![NextStep Banner](https://github.com/dev261004/NextStep/ScreenShot/banner.png) -->
 
