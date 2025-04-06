@@ -1,8 +1,7 @@
-# NextStep - Civic Engagement Platform
+# NextStep - Civic Engagement Platform  
 <div align="center">
   <img src="./ScreenShot/banner.png" alt="Image description" width="500"/><br/>
 </div> 
-<!-- ![NextStep Banner](https://github.com/dev261004/NextStep/ScreenShot/banner.png) -->
 
 ## 🚀 About the Project  
 NextStep is a **React Native** application developed during the **Odoo x CHARUSAT Hackathon** to empower marginalized communities by providing tools for civic engagement. The platform helps users **influence policy decisions, report local issues, and participate in community initiatives**.
@@ -19,11 +18,10 @@ NextStep bridges the gap between **local authorities and citizens** by providing
 ---
 
 ## 👨‍💻 Team Neutron  
-| Name          | Role                | GitHub ID |
-|--------------|---------------------|-----------|
-| **Dev Agrawal** | Backend Developer  | [dev261004](https://github.com/dev261004) |
-| **Pradeep Prajapati** | Frontend Developer  | [Pradeep-1496](https://github.com/Pradeep-1496) |
-
+| Name                  | Role               | GitHub ID                                 |
+|-----------------------|--------------------|--------------------------------------------|
+| **Dev Agrawal**        | Backend Developer  | [@dev261004](https://github.com/dev261004) |
+| **Pradeep Prajapati**  | Frontend Developer | [@Pradeep-1496](https://github.com/Pradeep-1496) |
 
 ---
 
@@ -33,36 +31,44 @@ NextStep bridges the gap between **local authorities and citizens** by providing
 - **Database:** MongoDB  
 - **Authentication:** JWT/Auth0  
 - **Notifications & Communication:** Twilio  
-- **Maps & Location Services:** Google Maps  
+- **Maps & Location Services:** Google Maps API  
 
 ---
 
 ## 📱 Screenshots  
 | Home Page | Communities | Surveys |  
-|-----------|------------|---------|  
-| ![Home](ScreenShot/home.png) | ![Communities](https://github.com/dev261004/NextStep/tree/main/ScreenShot/communities.png) | ![Surveys](https://github.com/dev261004/NextStep/tree/main/ScreenShot/surveys.png) |  
+|-----------|-------------|---------|  
+| ![Home](ScreenShot/home.png) | ![Communities](ScreenShot/communities.png) | ![Surveys](ScreenShot/surveys.png) |  
 
 ---
 
 ## 🎯 Features  
-✔️ **Crowdsourced Ideas** – Suggest and vote for local projects.  
-✔️ **Community Discussions** – Engage in niche-specific groups.  
-✔️ **Policy Tracking & Surveys** – Stay updated on government actions.  
-✔️ **Service Requests** – Easily report local issues.  
-✔️ **Secure & Scalable** – Built with JWT authentication and cloud hosting.  
+✔️ **Crowdsourced Ideas** – Suggest and vote for local development projects.  
+✔️ **Community Discussions** – Engage in topic-specific forums.  
+✔️ **Policy Tracking & Surveys** – Keep up with policy updates and participate in feedback.  
+✔️ **Service Requests** – Report issues like potholes, garbage dumps, water leaks, etc.  
+✔️ **Authentication & Security** – JWT-based authentication ensures user data is protected.  
+✔️ **Real-Time Notifications** – Alerts and updates using Twilio and push notifications.  
 
 ---
 
 ## 🏗️ Installation  
-### Prerequisites  
-- Node.js  
-- Expo CLI  
-- MongoDB  
 
-### Steps  
-1. Clone the repository:  
-   ```sh
+### 📋 Prerequisites  
+- [Node.js](https://nodejs.org/)  
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)  
+- [MongoDB](https://www.mongodb.com/)  
+
+### ⚙️ Steps to Run Locally  
+
+1. **Clone the Repository**  
+   ```bash
    git clone https://github.com/dev261004/NextStep.git
-   cd NextStep
+   cd NextStep ```
 
-   Npm start
+2. **Install Dependencies**
+
+ ```Copy
+Edit
+npm install```
+
