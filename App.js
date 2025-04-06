@@ -16,6 +16,7 @@ import Survey from "./screens/Tabs/Survey.js";
 import ChatScreen from "./screens/Tabs/ChatScreen.js";
 import StoreSearchScreen from "./screens/StoreSearchScreen.js";
 import SurveyDetail from "./screens/Tabs/SurveyDetail.js";
+import ComplaintsScreen from "./screens/ComplaintsScreen.js";
 
 const Stack = createStackNavigator();
 
@@ -76,6 +77,11 @@ const App = () => {
         <Stack.Screen
           name="StoreSearchScreen"
           component={StoreSearchScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ComplaintsScreen"
+          component={ComplaintsScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

@@ -10,8 +10,6 @@ import {
   Dimensions,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { LinearGradient } from "expo-linear-gradient";
-
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -53,13 +51,17 @@ export default function Connect() {
       description: "Slogan",
       image: require("../../assets/cm.png"),
     },
-    // More community items...
   ];
 
   const renderCommunityItem = ({ item }) => (
     <TouchableOpacity
       style={styles.communityCard}
-      onPress={() => navigation.navigate("ChatScreen")} // Navigate to ChatScreen
+      onPress={() =>
+        navigation.navigate("ChatScreen", {
+          title: item.title,
+          image: item.image,
+        })
+      }
     >
       <Image source={item.image} style={styles.communityImage} />
       <View style={styles.communityDetails}>
@@ -242,6 +244,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#000",
   },
+  gradientButton: {
+margin: 10,
+borderRadius: 10,
+  },
+  button: {
+
+    alignItems: "center",
+    borderRadius: 10,
+  },
+
+  buttonText: {
+    textAlign: "center",
+    paddingVertical: height * 0.015,
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+    
+  },
   communityList: {
     paddingBottom: 70,
   },
@@ -295,76 +315,5 @@ const styles = StyleSheet.create({
   tabsC: {
     justifyContent: "center",
     alignItems: "center",
-  },
-  postCard: {
-    backgroundColor: "#fff",
-    marginBottom: 15,
-    borderRadius: 8,
-    borderWidth: 1, // Add border width
-    borderColor: "#ddd", // Add border color
-    paddingBottom: 10, // Add padding to the bottom
-  },
-  postHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-  },
-  Picon: {
-    height: 30,
-    width: 30,
-    marginRight: 10,
-  },
-  postUser: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: "#000",
-  },
-  postImage: {
-    width: "100%",
-    height: 400, // Adjust the height as needed to maintain aspect ratio
-    resizeMode: "contain", // Ensures the image fits within the bounds without stretching or distorting
-    backgroundColor: "#fff",
-  },
-
-  postActions: {
-    flexDirection: "row",
-    padding: 10,
-    justifyContent: "space-around", // Distribute actions evenly
-  },
-  postDetails: {
-    paddingHorizontal: 10,
-  },
-  postLikes: {
-    fontWeight: "bold",
-    marginBottom: 5,
-    color: "#000",
-  },
-  postDescription: {
-    marginBottom: 5,
-    color: "#000",
-  },
-  postTime: {
-    fontSize: 12,
-    color: "#888",
-  },
-  postList: {
-    paddingBottom: 70, // Adjust padding as needed
-  },
-  gradientButton: {
-    borderRadius: 10,
-    width: 100,
-    height: 30,
-  },
-
-  button: {
-    alignItems: "center",
-    borderRadius: 10,
-  },
-  buttonText: {
-    textAlign: "center",
-    paddingVertical: 3,
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 16,
   },
 });

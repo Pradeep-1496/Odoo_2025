@@ -19,6 +19,7 @@ const StoreSearchScreen = () => {
         `https://maps.googleapis.com/maps/api/place/textsearch/json?query=Jan+Aushadhi+Kendra+near+${pincode}&key=${GOOGLE_API_KEY}`
       );
 
+
       const data = await response.json();
       setStores(data.results);
     } catch (error) {
